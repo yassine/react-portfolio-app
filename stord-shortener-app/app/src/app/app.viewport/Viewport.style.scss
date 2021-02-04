@@ -1,0 +1,44 @@
+@import 'layout.vars';
+@import "typography";
+
+.viewport {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.main {
+  padding: $content-padding $content-padding;
+  width: 100%;
+}
+
+.logo {
+  font-family: 'pacifico', sans-serif;
+  margin: 25px auto 120px;
+  font-size: $text-size-xxlarge;
+}
+.icon {
+  margin: 0 auto;
+  transform: rotateZ(-90deg);
+}
+
+@mixin theme($theme) {
+  .#{$theme} {
+    &.viewport, &.main {
+      background: $color-primary;
+    }
+    &.icon {
+      fill: $color-logo-icon;
+    }
+    &.logo {
+      color: $color-logo;
+      text-shadow: 1px 1px $color-logo-shadow;
+    }
+  }
+}
+
+@import "palette-theme-dark.vars";
+@include theme('theme-dark');
+
+@import "palette-theme-light.vars";
+@include theme('theme-light');

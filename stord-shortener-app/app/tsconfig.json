@@ -1,0 +1,31 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "noImplicitAny": false,
+    "sourceMap": true,
+    "target": "ES2015",
+    "module": "ES2015",
+    "resolveJsonModule": true,
+    "moduleResolution": "Node",
+    "rootDirs": [
+      ".", "./resources"
+    ],
+    "strictNullChecks": false,
+    "allowJs": true,
+    "experimentalDecorators": true,
+    "esModuleInterop": true,
+    "lib": [
+      "es2015",
+      "dom"
+    ],
+    "paths": {
+      "app.*" : [ "src/app/app.*" ],
+      "ui.*"  : [ "src/ui/ui.*" ]
+    },
+    "jsx": "react"
+  },
+  "exclude": [
+    "./node_modules",
+    "./packaging"
+  ]
+}

@@ -1,0 +1,26 @@
+@import "layout.vars";
+
+.card {
+  border-radius: 4px;
+
+  overflow: hidden;
+  $indent: $card-padding;
+  padding: $indent $indent 60px $indent;
+  width: $card-width;
+  margin: 0 auto;
+}
+
+@mixin theme($theme) {
+  .#{$theme} {
+    &.card {
+      background: $card-background;
+      box-shadow: 0 1px 1px 1px rgba(white, 0.1);
+    }
+  }
+}
+
+@import "palette-theme-light.vars";
+@include theme('theme-light');
+
+@import "palette-theme-dark.vars";
+@include theme('theme-dark');

@@ -1,0 +1,81 @@
+@import "typography";
+@import "form.vars";
+@import "layout.vars";
+
+$button-height: $form-base-height;
+
+.wrapper {
+
+  padding: 0 ($button-height / 3);
+  height: $button-height;
+
+  font-family: $font-heading;
+  font-weight: bold;
+  font-size: 12px;
+
+  border-radius: $form-border-radius;
+  transition: background-color 0.2s 0s ease-in,
+              color 0.2s 0s ease-in;
+  cursor: pointer;
+
+  &.disabled, &.active {
+    cursor: initial;
+  }
+
+}
+
+.icon {
+  margin-right: $base-indent;
+}
+
+/*
+  Theming
+*/
+
+@mixin theme($theme) {
+  .#{$theme}.wrapper {
+    background: $color-button;
+    color: $color-button-text;
+    &.disabled {
+      background: $color-button-inactive;
+      color: $color-button-text-inactive;
+    }
+    &.active {
+      background: $color-button;
+      color: $color-button-text;
+    }
+    &.success {
+      background: $color-success;
+      color: $color-success-text;
+    }
+    &.error {
+      background: $color-error;
+      color: $color-error-text;
+    }
+  }
+  .#{$theme}.icon {
+    fill: $color-button-text;
+  }
+}
+
+@import "palette-theme-dark.vars";
+@include theme('theme-dark');
+
+@import "palette-theme-light.vars";
+@include theme('theme-light');
+
+/*
+  Animations
+*/
+.spin {
+  animation: spin 1.5s infinite linear;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
+}

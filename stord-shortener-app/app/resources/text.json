@@ -1,0 +1,11 @@
+{
+  "app.shortener.input-label": "Url to shorten",
+  "app.shortener.url-label": "You can now use the following URL",
+  "app.shortener.submit": "Shorten",
+  "app.shortener.thanks": "Thank You!",
+  "app.shortener.copy": "Copy",
+  "app.shortener.validation.no_url": "No url specified",
+  "app.shortener.validation.url_syntax": "Malformed url",
+  "app.shortener.redirect.wait": "Resolving your url ...",
+  "app.shortener.redirect.error": "Wrong Url"
+}

@@ -1,0 +1,15 @@
+version: "2.4"
+services:
+  app:
+    container_name: stord-shortener-app
+    image: 'yassine/stord-shortener-app:0.1.0'
+    depends_on:
+      - api
+    ports:
+      - "8080:8080"
+    command: node index.js http://stord-shortener-service:8080
+  api:
+    container_name: stord-shortener-service
+    image: 'yassine/stord-shortener-service:0.1.0'
+    ports:
+      - "8081:8080"

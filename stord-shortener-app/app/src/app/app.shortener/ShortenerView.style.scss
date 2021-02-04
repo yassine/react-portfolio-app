@@ -1,0 +1,113 @@
+@import "layout.vars";
+@import "form.vars";
+@import "typography";
+
+.group {
+
+  position: relative;
+  width: $card-width - 2 * $card-padding;
+  & > * {
+    &:not(:first-of-type) {
+      margin-top: 3 * $base-indent;
+    }
+  }
+
+  &.visible {
+    z-index: 1;
+    animation: moveIn 0.3s 0s;
+  }
+
+  &.hidden {
+    z-index: -1;
+    position: absolute;
+    opacity: 0;
+    transform: scale(.9);
+    transition: visibility 0s 0.2s,
+                transform 0.2s 0s,
+                opacity 0.2s 0s;
+    visibility: hidden;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+}
+
+.input {
+  width: $card-width - 2 * $card-padding;
+}
+
+.buttonGroup {
+  width: inherit;
+}
+
+.shortenButton {
+  margin: 0 auto;
+
+}
+
+.thankButton {
+  margin-left: auto;
+}
+
+.callout {
+  padding : $base-indent $base-indent;
+  border-radius: $form-border-radius;
+  font-family: $font-paragraph;
+  font-size: $text-size-small;
+  font-weight: bold;
+  animation: calloutIn 0.7s 0s;
+  min-width: 100%;
+  visibility: hidden;
+  margin-top: 2 * $base-indent;
+  &.error {
+    visibility: visible;
+  }
+}
+
+@mixin theme($theme) {
+  .#{$theme} {
+    &.callout {
+      color: $color-primary-text;
+      &.error {
+        background: lighten($color-error, 30%);
+        color: $color-error;
+      }
+    }
+  }
+}
+
+@import "palette-theme-light.vars";
+@include theme('theme-light');
+
+@import "palette-theme-dark.vars";
+@include theme('theme-dark');
+
+@keyframes calloutIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes moveIn {
+  from {
+    opacity: 0;
+    transform: translateY(-45px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+
+@keyframes moveOut {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(.9);
+  }
+}

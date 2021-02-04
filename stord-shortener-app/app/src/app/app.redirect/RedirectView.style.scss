@@ -1,0 +1,54 @@
+@import "typography";
+@import "layout.vars";
+.container {
+  width: 100%;
+}
+.icon {
+  margin: 0 auto;
+}
+
+.text {
+  margin-top: $base-indent * 2;
+  font-family: $font-paragraph;
+  font-size: $text-size-normal;
+  font-weight: bold;
+}
+
+/*
+  Theming
+*/
+@mixin theme($theme) {
+  .#{$theme} {
+    &.icon {
+      color: $color-button-text;
+      &.error {
+        color: red;
+      }
+    }
+    &.text {
+      color: $color-button-text;
+    }
+  }
+}
+
+@import "palette-theme-dark.vars";
+@include theme('theme-dark');
+
+@import "palette-theme-light.vars";
+@include theme('theme-light');
+
+/*
+  Animations
+*/
+.spin {
+  animation: spin 1.5s infinite linear;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
+}
