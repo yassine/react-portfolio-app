@@ -21,6 +21,16 @@
   margin: 0 auto;
   transform: rotateZ(-90deg);
 }
+.card {
+  position: relative;
+  padding-top: 75px;
+}
+
+.switch {
+  position: absolute;
+  top: 0;
+  right: $base-indent * 1.5;
+}
 
 @mixin theme($theme) {
   .#{$theme} {

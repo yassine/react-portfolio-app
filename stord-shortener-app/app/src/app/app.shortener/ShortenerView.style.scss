@@ -41,7 +41,6 @@
 
 .shortenButton {
   margin: 0 auto;
-
 }
 
 .thankButton {
@@ -51,9 +50,8 @@
 .callout {
   padding : $base-indent $base-indent;
   border-radius: $form-border-radius;
-  font-family: $font-paragraph;
+  font-family: $font-heading;
   font-size: $text-size-small;
-  font-weight: bold;
   animation: calloutIn 0.7s 0s;
   min-width: 100%;
   visibility: hidden;

@@ -15,5 +15,5 @@ export function useCssState(styles, reducer, ...dependencies) {
             .reduce((acc, current) => `${acc} ${current || ''}`, '')
             .trim()
         ).trim();
-  }, (dependencies || []));
+  }, (dependencies || []).concat(theme));
 }

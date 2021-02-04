@@ -5,7 +5,6 @@
 
   font-family : $font-heading;
   font-size   : $text-size-small;
-  font-weight : bold;
 
   height  : $form-base-height;
   padding : 10px;
@@ -30,7 +29,7 @@
  */
 @mixin theme($theme) {
   .#{$theme} {
-    .input {
+    &.input {
       color         : $color-input-text;
       background    : $color-input;
       border-color  : $color-input-border;
@@ -38,13 +37,15 @@
         color: $color-input-placeholder;
       }
     }
-    .label {
-      color: $color-primary-text;
+    &.label {
+      font-weight: bold;
+      color: $color-input-label;
     }
   }
 }
-@import "palette-theme-dark.vars";
-@include theme('theme-dark');
 
 @import "palette-theme-light.vars";
 @include theme('theme-light');
+
+@import "palette-theme-dark.vars";
+@include theme('theme-dark');

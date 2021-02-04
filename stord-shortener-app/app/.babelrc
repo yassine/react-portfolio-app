@@ -1,6 +1,0 @@
-{
-  "passPerPreset" : true,
-  "presets": [
-    "@babel/preset-env"
-  ]
-}

@@ -7,14 +7,17 @@ import { IconLibrary }               from 'ui.icon';
 import { Viewport }                  from 'app.viewport';
 import { ShortenerView }             from 'app.shortener'
 import { RedirectView }              from 'app.redirect';
+import {useState} from "react";
 
-export const Application = () =>
-  <ApiContext.Provider value = { 'api' }>
+export const Application = () => {
+  const [theme, setTheme] = useState(false)
+  const themeName = theme ? 'theme-light' : 'theme-dark';
+  return <ApiContext.Provider value = { 'api' }>
     <TextContext.Provider value = {text}>
-      <UIThemeContext.Provider value = {'theme-dark'}>
+      <UIThemeContext.Provider value = { themeName }>
         <BrowserRouter>
           <IconLibrary />
-          <Viewport>
+          <Viewport onThemeChange = { setTheme }>
             <Switch>
               <Route path  = '/'
                      exact = { true }
@@ -27,3 +30,5 @@ export const Application = () =>
       </UIThemeContext.Provider>
     </TextContext.Provider>
   </ApiContext.Provider>;
+}
+

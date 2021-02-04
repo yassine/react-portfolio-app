@@ -31,6 +31,7 @@ $color-primary-text-disabled: $color-disabled;
 
 $color-input: white;
 $color-input-text: #333;
+$color-input-label: $color-primary-text;
 $color-input-placeholder: $color-form-placeholder;
 $color-input-border: $grey-12;
 
@@ -40,7 +41,7 @@ $color-button-inactive: $grey-5;
 $color-button-text-inactive: $grey-3;
 
 $color-nav-text: white;
-$card-background: rgba($color-active, 0.1);
+$card-background: rgba($color-active, 0.15);
 $card-shadow: rgba(black, 0.1);
 $color-logo: $color-active;
 $color-logo-shadow: darken($color-logo, 0.2);
