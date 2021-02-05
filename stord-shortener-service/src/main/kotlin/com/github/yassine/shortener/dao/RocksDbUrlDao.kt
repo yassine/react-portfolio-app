@@ -5,12 +5,14 @@ import com.github.yassine.shortener.dao.HashService.hash
 import com.google.inject.Inject
 import org.rocksdb.RocksDB
 
-class RocksDbUrlDao @Inject constructor(val rocksDB: RocksDB): UrlDao {
+const val MIN_HASH_LENGTH = 5
+
+class RocksDbUrlDao @Inject constructor(private val rocksDB: RocksDB): UrlDao {
 
   override fun store(url: String): String? {
 
     val key    = encode(hash(url.toByteArray()))
-    var len    = 5
+    var len    = MIN_HASH_LENGTH
     var subKey = key.substring(0, len).toByteArray()
     var value  = rocksDB.get(subKey)
 
@@ -18,8 +20,7 @@ class RocksDbUrlDao @Inject constructor(val rocksDB: RocksDB): UrlDao {
       Collisions handling: we basically handling collisions
       by increasing the hash length.
     */
-    while (value != null && len < 33) {
-      len++
+    while (value != null && ++len < 33) {
       subKey = key.substring(0, len).toByteArray()
       value  = rocksDB.get(subKey)
     }

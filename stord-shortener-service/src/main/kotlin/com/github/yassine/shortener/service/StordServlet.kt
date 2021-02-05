@@ -6,17 +6,21 @@ import com.google.inject.Singleton
 import io.undertow.servlet.handlers.DefaultServlet
 import mu.KotlinLogging
 import java.io.IOException
+import java.io.Writer
 import java.lang.Exception
 import java.net.URL
 import javax.servlet.ServletException
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
-@Singleton
-class StordServlet : DefaultServlet() {
+const val NOT_FOUND   = "Not Found"
+const val BAD_REQUEST = "Bad Request"
+const val BAD_URL     = "No URL or Bad URL"
+const val OOC         = "Out of capacity"
+const val QUOTE       = "\""
 
-  @Inject
-  lateinit var urlDao: UrlDao
+@Singleton
+class StordServlet @Inject constructor(private val urlDao: UrlDao): DefaultServlet() {
 
   private val logger = KotlinLogging.logger {}
 
@@ -27,24 +31,13 @@ class StordServlet : DefaultServlet() {
       ?.let { it[1] }
       ?.let { key ->
         urlDao.get(key)?.also {
-          resp.writer.write("\"")
-          resp.writer.write(it)
-          resp.writer.write("\"")
-          resp.writer.flush()
+          writeString(it, resp, 200)
         } ?: resp.also {
-          it.status = 404
-          it.writer.write("\"")
-          it.writer.write("Not Found")
-          it.writer.write("\"")
-          it.writer.flush()
+          writeString(NOT_FOUND, resp, 404)
         }
       }
       ?: resp.also {
-        it.status = 500
-        resp.writer.write("\"")
-        it.writer.write("Bad request path")
-        resp.writer.write("\"")
-        it.writer.flush()
+        writeString(BAD_REQUEST, resp, 500)
       }
   }
 
@@ -52,39 +45,39 @@ class StordServlet : DefaultServlet() {
 
     req?.reader?.lines()
       ?.limit(1)
-      ?.filter {
-        try {
-          URL(it)
-          return@filter true
-        } catch (e: Exception) {
-          logger.error(e.message)
-          return@filter false;
-        }
-      }
-      ?.map { urlDao.store(it) }
+      ?.filter(::isValidURL)
+      ?.map(urlDao::store)
       ?.forEach { hash ->
         hash?.also {
-          resp.writer.write("\"")
-          resp.writer.write(it)
-          resp.writer.write("\"")
-          resp.writer.flush()
+          writeString(it, resp, 200)
         } ?: resp.also {
-          // no available key in the key space
-          it.status = 500
-          resp.writer.write("\"")
-          it.writer.write("Out of capacity")
-          resp.writer.write("\"")
-          it.writer.flush()
+          // no available key, we're hitting in the key space limit
+          writeString(OOC, resp, 500)
         }
       }
       ?: resp.also {
-        it.status = 500
-        resp.writer.write("\"")
-        it.writer.write("No URL or Bad URL")
-        resp.writer.write("\"")
-        it.writer.flush()
+        writeString(BAD_URL, resp, 500)
       }
 
+  }
+
+  private fun writeString(value: String, resp: HttpServletResponse, status: Int) {
+    resp.status = status
+    // avoiding (purposely) string interpolation to not pollute the heap with a non necessary string
+    resp.writer.write(QUOTE)
+    resp.writer.write(value)
+    resp.writer.write(QUOTE)
+    resp.writer.flush()
+  }
+
+  private fun isValidURL(url: String): Boolean{
+    return try {
+      URL(url)
+      true
+    } catch (e: Exception) {
+      logger.error(e.message)
+      false
+    }
   }
 
 }

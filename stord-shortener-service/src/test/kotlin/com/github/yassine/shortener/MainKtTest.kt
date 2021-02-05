@@ -7,9 +7,11 @@ import io.restassured.module.kotlin.extensions.Given
 import io.restassured.module.kotlin.extensions.Then
 import io.restassured.module.kotlin.extensions.When
 import io.undertow.Undertow
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import org.awaitility.Awaitility
+import org.awaitility.Awaitility.await
 import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.specification.describe
 import strikt.api.expect
@@ -20,43 +22,15 @@ import java.util.concurrent.TimeUnit
 
 
 object ApiTest: Spek({
+
   var server: Undertow? = null
   val port = 9080
-
-  beforeGroup {
-    //start the server in a new thread
-    Thread {
-      val dir    = Files.createTempDir()
-      val config = File(dir, "config.yaml")
-      ApiTest::class.java.getResourceAsStream("/test-config.yaml")
-      copy(ApiTest::class.java.getResourceAsStream("/test-config.yaml"), FileOutputStream(config))
-      server = undertow(config.absolutePath, port)
-      server?.start()
-    }.also {
-      it.start()
-    }
-    // wait for it to be online
-    Awaitility.await().ignoreExceptions()
-      .pollInterval(1, TimeUnit.SECONDS)
-      .atMost(60, TimeUnit.SECONDS)
-      .untilAsserted {
-        OkHttpClient.Builder().build()
-          .newCall(
-            Request.Builder()
-              .header("Accept", "application/json")
-              .url("http://localhost:9080/error")
-              .get().build()
-          )
-          .execute()
-      }
-
-  }
 
   describe("when a i request a non existing key from the api") {
 
     it("i should get a 404 response code") {
       Given {
-          port(9080)
+          port(port)
       } When {
         get("/")
       } Then {
@@ -66,14 +40,13 @@ object ApiTest: Spek({
 
   }
 
-
   group("when a i post a url to from the api") {
     val key = "http://www.google.com"
     var hash: String? = null
 
-    test("i should get a short hash") {
+    test("i should get a short hash from the api") {
       Given {
-        port(9080)
+        port(port)
         body(key)
       } When {
         post("/")
@@ -85,9 +58,9 @@ object ApiTest: Spek({
       }
     }
 
-    test("i should get a short back the original url if use the hash") {
+    test("i should get the original url if use that hash") {
       Given {
-        port(9080)
+        port(port)
       } When {
         get("/${hash?.replace("\"", "")}")
       } Then {
@@ -98,9 +71,9 @@ object ApiTest: Spek({
       }
     }
 
-    test("i should get a different key if send the same url again (multi users)") {
+    test("i should get a different key if we send the same url again (multi users)") {
       Given {
-        port(9080)
+        port(port)
         body(key)
       } When {
         post("/")
@@ -111,6 +84,34 @@ object ApiTest: Spek({
       }
     }
 
+  }
+
+  beforeGroup {
+    //start the server in a new thread
+    GlobalScope.launch { // launch a new coroutine in background and continue
+      val dir    = Files.createTempDir()
+      val config = File(dir, "config.yaml")
+      ApiTest::class.java.getResourceAsStream("/test-config.yaml")
+      copy(ApiTest::class.java.getResourceAsStream("/test-config.yaml"), FileOutputStream(config))
+      server = undertow(config.absolutePath, port)
+      server?.start()
+    }
+
+    // wait for it to be online
+    await()
+      .pollInterval(1, TimeUnit.SECONDS)
+      .atMost(60, TimeUnit.SECONDS)
+      .ignoreExceptions()
+      .untilAsserted {
+        OkHttpClient.Builder().build()
+          .newCall(
+            Request.Builder()
+              .header("Accept", "application/json")
+              .url("http://localhost:${port}/should-not-exist")
+              .get().build()
+          )
+          .execute()
+      }
   }
 
   afterGroup {

@@ -43,7 +43,9 @@ dependencies {
   implementation("io.github.microutils:kotlin-logging:1.7.8")
   implementation("ch.qos.logback:logback-classic:1.2.3")
 
+  testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2")
   testImplementation("org.awaitility:awaitility:4.0.3")
+  testImplementation("org.mockito:mockito-core:3.7.7")
   testImplementation("org.spekframework.spek2:spek-dsl-jvm:2.0.12")
   testImplementation("org.spekframework.spek2:spek-runner-junit5:2.0.12")
   testImplementation("io.strikt:strikt-core:0.23.7")
