@@ -1,5 +1,5 @@
 plugins {
-  id("com.palantir.docker-compose") version "0.22.1"
+  id("com.palantir.docker-compose") version "0.26.0"
 }
 
 group   = "yassine.assignments"

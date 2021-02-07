@@ -25,9 +25,10 @@ module.exports = {
           {
             loader  : 'sass-loader',
             options : {
-              implementation : require('sass'),
               sassOptions    : {
-                includePaths: [
+                functions: require('node-sass-json-vars'),
+                configPath:  'resources/sass.json',
+                includePaths : [
                   'resources'
                 ]
               }
@@ -44,9 +45,11 @@ module.exports = {
           {
             loader  : 'sass-loader',
             options : {
-              implementation : require('sass'),
+              implementation : require('node-sass'),
               sassOptions    : {
-                includePaths: [
+                functions: require('node-sass-json-vars'),
+                configPath:  'resources/sass.json',
+                includePaths : [
                   'resources'
                 ]
               }
@@ -62,6 +65,18 @@ module.exports = {
             options : {
               name       : '[name].[ext]',
               outputPath : 'fonts/'
+            }
+          }
+        ]
+      },
+      {
+        test : /\.(jpg|jpeg|png)(\?v=\d+\.\d+\.\d+)?$/,
+        use  : [
+          {
+            loader  : 'file-loader',
+            options : {
+              name       : '[name].[ext]',
+              outputPath : 'images/'
             }
           }
         ]

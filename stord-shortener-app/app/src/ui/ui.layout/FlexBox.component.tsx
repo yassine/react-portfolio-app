@@ -1,6 +1,7 @@
-import * as React from 'react';
-import styles from './FlexBox.component.scss'
+import * as React   from 'react';
+import styles       from './FlexBox.component.scss'
 import { Property } from 'csstype';
+import { HBox }     from "ui.layout/HBox.component";
 
 interface DirectionProps {
   direction ?: Direction
@@ -10,6 +11,7 @@ export interface FlexBoxProps {
   alignContent ?: AlignContent
   alignItems   ?: Align
   children     ?: any
+  id           ?: string
   justify      ?: Justify
   userClass    ?: any
   userStyle    ?: any
@@ -20,6 +22,7 @@ export interface FlexBoxProps {
 export function FlexBox(props: FlexBoxProps & DirectionProps) {
   const style = Object.assign({}, props.userStyle || {}, getStyle(props));
   return <section className = { `${styles.flexbox} ${props.userClass || ''}` }
+                  id        = { props.id }
                   style     = { style }
                   onClick   = { (e) => props.onClick?.(e as any) }>
     { props.children }

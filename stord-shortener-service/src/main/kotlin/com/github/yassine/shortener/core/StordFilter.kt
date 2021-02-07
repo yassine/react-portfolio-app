@@ -22,7 +22,9 @@ class StordFilter : HttpFilter() {
       chain?.doFilter(req, res)
     } finally {
       start = System.nanoTime() - start
-      logger.info("${req?.remoteHost} ${req?.method} ${req?.pathInfo ?: "/"} ${start / 1000 }")
+      logger.info {
+        "${req?.remoteHost} ${res?.status} ${req?.method} ${req?.pathInfo ?: "/"} ${start / 1000 }"
+      }
     }
   }
 

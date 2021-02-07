@@ -28,47 +28,41 @@ export const ActionButton = (props: ButtonProps) => {
   const promiseState
     = usePromiseState(promise, promiseConfig);
 
-  const activePromiseStates
-    = Object.keys(promiseState).filter(k => promiseState[k]);
-
-  const cssStateOf = useCssState(styles, ButtonStyleReducer, props, promise);
+  const cssStateOf = useCssState(styles, ButtonStyleReducer, props, promiseState);
   const theme = useContext(UIThemeContext);
 
   return <HBox alignContent = {"center"}
                alignItems   = {"center"}
+               id           = { props.id }
                onClick      = {() => onButtonClick(props, setPromise, promiseState)}
-               userClass    = {`${cssStateOf('wrapper', theme, ...activePromiseStates)} ${props.userClass} `}>
+               userClass    = {`${cssStateOf('wrapper', theme)} ${props.userClass} `}>
     {
       props.icon && !promiseState?.loading && !promiseState?.active &&
       <Icon icon        = { props.icon }
-            height      = { props.iconHeight || 24 }
-            width       = { props.iconWidth || 24 }
-            userClass   = { cssStateOf('icon') }
-            viewBoxSize = { props.iconViewBox || 24 } />
+            height      = { props.iconHeight }
+            width       = { props.iconWidth }
+            userClass   = { cssStateOf('icon') } />
     }
     {
       promiseState?.loading &&
       <Icon icon        = 'spinner'
             userClass   = { cssStateOf('icon', 'spin') }
-            height      = { props.iconHeight || 24 }
-            width       = { props.iconWidth || 24 }
-            viewBoxSize = { 32 } />
+            height      = { props.iconHeight }
+            width       = { props.iconWidth } />
     }
     {
       promiseState?.success &&
       <Icon icon        = 'check'
-            height      = { props.iconHeight || 24 }
-            width       = { props.iconWidth || 24 }
-            userClass   = { cssStateOf('icon') }
-            viewBoxSize = { 92 } />
+            height      = { props.iconHeight }
+            width       = { props.iconWidth }
+            userClass   = { cssStateOf('icon') } />
     }
     {
       promiseState?.error &&
       <Icon icon        = 'cross'
-            height      = { props.iconHeight || 24 }
-            width       = { props.iconWidth || 24 }
-            userClass   = { cssStateOf('icon') }
-            viewBoxSize = { 90 } />
+            height      = { props.iconHeight }
+            width       = { props.iconWidth }
+            userClass   = { cssStateOf('icon') } />
     }
     {
       props.label &&
@@ -98,9 +92,9 @@ function ButtonStyleReducer(props, promiseState: PromiseHookState) {
 }
 
 interface ButtonProps {
+  id  ?: string
   icon?: string
   label: string
-  iconViewBox ?: number
   iconWidth   ?: number
   iconHeight  ?: number
   userClass?: string

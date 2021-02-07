@@ -1,20 +1,21 @@
 @import "shades.vars";
 
-$color-success: #5fa016;
-$color-success-text: white;
-$color-error: #ed1b2e;
-$color-error-text: $grey-2;
+$color-success: #A4FF53;
+$color-success-text: black;
+$color-error: #a95058;
+$color-error-text: white;
 $color-warning: orange;
 $color-warning-text: white;
 
-$color-active: #4198cd;
-$color-active-secondary: $color-active;
-$color-active-text: $grey-2;
+$color-active: #DDCA2E;
+$color-active: purple;
+$color-active-secondary: yellow;
+$color-active-text: white;
 $color-disabled: #777;
 $color-form-placeholder: #8b949d;
 $color-text-disable: #555;
 
-$color-primary: white;
+$color-primary: #070912;
 $color-primary-shade-1: lighten($color-primary, 10%);
 $color-primary-shade-2: lighten($color-primary, 20%);
 $color-primary-shade-3: lighten($color-primary, 30%);
@@ -25,24 +26,31 @@ $color-primary-shade-7: lighten($color-primary, 70%);
 $color-primary-shade-8: lighten($color-primary, 80%);
 $color-primary-shade-9: lighten($color-primary, 90%);
 
-$color-primary-text: $grey-3;
+$color-primary-text: white;
 $color-primary-text-active: $color-active;
 $color-primary-text-disabled: $color-disabled;
 
-$color-input: white;
-$color-input-text: #333;
-$color-input-label: $color-primary-text;
+$color-input: lighten(rgba($color-primary, 1), 15%);
+$color-input-text: #ff91ff;
+$color-input-label: white;
 $color-input-placeholder: $color-form-placeholder;
-$color-input-border: $grey-12;
+$color-input-border: $grey-4;
 
 $color-button: $color-active;
-$color-button-text: white;
+$color-button-text: $color-active-text;
 $color-button-inactive: $grey-5;
 $color-button-text-inactive: $grey-3;
 
 $color-nav-text: white;
-$card-background: rgba($color-active, 0.15);
-$card-shadow: rgba(black, 0.1);
-$color-logo: $color-active;
-$color-logo-shadow: darken($color-logo, 0.2);
-$color-logo-icon: $color-active-secondary;
+
+$card-background: rgba(white, 0.1);
+$card-border-color: darken($color-primary, 3%);
+$card-shadow: rgba(white, 0.1);
+
+$color-logo: lighten(#ff91ff, 25%);
+$color-logo-shadow: lighten(black, 0.2);
+$color-logo-icon: $color-active;
+
+$color-text-area-shadow: black;
+$color-text-area-color: $color-input-text;
+$color-text-area-placeholder: white;

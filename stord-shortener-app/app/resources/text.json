@@ -1,11 +1,12 @@
 {
-  "app.shortener.input-label": "Url to shorten",
+  "app.shortener.input-label": "Type-in the url to be shortened...",
   "app.shortener.url-label": "You can now use the following URL",
   "app.shortener.submit": "Shorten",
-  "app.shortener.thanks": "Thank You!",
+  "app.shortener.thanks": "Thanks!",
   "app.shortener.copy": "Copy",
-  "app.shortener.validation.no_url": "No url specified",
-  "app.shortener.validation.url_syntax": "Malformed url",
+  "app.shortener.validation.no_url": "No url was specified",
+  "app.shortener.validation.url_syntax": "The url is malformed. Please enter a valid url.",
   "app.shortener.redirect.wait": "Resolving your url ...",
-  "app.shortener.redirect.error": "Wrong Url"
+  "app.shortener.redirect.error": "Wrong Url",
+  "app.shortener.redirect.redirecting": "Redirecting you to : "
 }

@@ -5,7 +5,7 @@ const webpack           = require('webpack')
 module.exports = {
   mode  : 'development',
   entry : [
-    'webpack-dev-server/client?http://localhost:9000',
+    'webpack-dev-server/client?http://127.0.0.1:9000',
     'webpack/hot/only-dev-server',
     './src/app/main.tsx',
   ],
@@ -25,9 +25,10 @@ module.exports = {
           {
             loader  : 'sass-loader',
             options : {
-              implementation : require('sass'),
               sassOptions    : {
-                includePaths: [
+                functions: require('node-sass-json-vars'),
+                configPath:  'resources/sass.json',
+                includePaths : [
                   'resources'
                 ]
               }
@@ -44,9 +45,11 @@ module.exports = {
           {
             loader  : 'sass-loader',
             options : {
-              implementation : require('sass'),
+              implementation : require('node-sass'),
               sassOptions    : {
-                includePaths: [
+                functions: require('node-sass-json-vars'),
+                configPath:  'resources/sass.json',
+                includePaths : [
                   'resources'
                 ]
               }
@@ -65,6 +68,18 @@ module.exports = {
             }
           }
         ]
+      },
+      {
+        test : /\.(jpg|jpeg|png)(\?v=\d+\.\d+\.\d+)?$/,
+        use  : [
+          {
+            loader  : 'file-loader',
+            options : {
+              name       : '[name].[ext]',
+              outputPath : 'images/'
+            }
+          }
+        ]
       }
     ]
   },
@@ -75,6 +90,12 @@ module.exports = {
     host             : '0.0.0.0',
     hot              : true,
     port             : 9000,
+    proxy: {
+      '/api': {
+        target: 'http://127.0.0.1:8080',
+        pathRewrite: { '^/api': '' },
+      },
+    }
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),

@@ -2,18 +2,25 @@ import React from 'react';
 
 interface IconProps {
   icon : string
-  viewBoxSize ?: number
   userClass ?: string
   width  ?: number
   height ?: number
+  strokeWidth ?: 0
 }
 
-export const Icon = (props: IconProps) =>
-  <svg className = { `${props.userClass || ''}` }
-       height  = { `${props.width || props.viewBoxSize || 24}` }
-       viewBox = { `0 0 ${ props.viewBoxSize || 24 } ${ props.viewBoxSize || 24 }` }
-       width   = { `${props.height || props.viewBoxSize || 24}` }
-       xmlns     = 'http://www.w3.org/2000/svg'>
-    <use stroke    = { 'currentColor' }
-         xlinkHref = { `#icon-${props.icon}` } />
+export const Icon = (props: IconProps) => {
+  const element = document.getElementById(`icon-${props.icon}`)
+  const height  = element?.attributes?.getNamedItem('data-height')?.value
+  const width   = element?.attributes?.getNamedItem('data-width')?.value
+  const viewBox = element?.attributes?.getNamedItem('data-viewbox')?.value
+  const strokeWidth = props.strokeWidth || 0
+  return <svg className = {`${props.userClass || ''}`}
+       height  = {`${props.height || height}`}
+       viewBox = { viewBox }
+       width   = {`${props.width || width}`}
+       strokeWidth = {strokeWidth}
+       xmlns = 'http://www.w3.org/2000/svg'>
+    <use stroke = {'currentColor'}
+         xlinkHref = {`#icon-${props.icon}`} />
   </svg>
+}

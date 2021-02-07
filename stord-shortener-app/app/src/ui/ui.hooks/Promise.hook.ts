@@ -1,31 +1,48 @@
-import { useEffect, useReducer } from 'react';
+import { useEffect, useMemo, useReducer } from 'react';
 import pTimeout                           from 'p-timeout';
+import pMinDelay                          from 'p-min-delay';
 
 const DEFAULT_TIMEOUT = 3000;
 
+/**
+ * Code is a bit complex/imperative due to the fact that it needs to handle the case of (promise) callbacks
+ * that fires after the component has been unloaded from the DOM by React.
+ */
 export function usePromiseState(promise, config: PromiseStateConfig): PromiseHookState {
   const [ state, dispatch ] = useReducer(PromiseStateReducer, {} as PromiseHookState);
+  const timeoutRef = useMemo(() => ({ ref: null, valid: true }), [promise])
   useEffect(() => {
     if (promise && !state.active) {
       const timeout = config.timeout || DEFAULT_TIMEOUT
       dispatch({ type: 'promise.start' });
-      pTimeout(promise, timeout).then((r) => {
-        setTimeout(() => {
+      pMinDelay(pTimeout(promise, timeout), config.delaySuccess)
+        .then((r) => {
+          if (!timeoutRef.valid) return;
           dispatch({ type: 'promise.success' });
-          setTimeout(() => {
+          timeoutRef.ref = setTimeout(() => {
+            if (!timeoutRef.valid) return;
             dispatch({ type: 'promise.end' });
             config.onEnd?.(true, r)
+            delete timeoutRef.ref;
           }, config.delayEnd || 100);
-        }, config.delaySuccess || 100);
-      }).catch(() => {
-        setTimeout(() => {
+        }).catch( (reason) => {
+          if (!timeoutRef.valid) return;
           dispatch({ type: 'promise.error' });
-          setTimeout(() => {
+          timeoutRef.ref = setTimeout(() => {
+            if (!timeoutRef.valid) return;
             dispatch({ type: 'promise.end' });
             config.onEnd?.(false)
+            delete timeoutRef.ref;
           }, config.delayEnd || 100);
-        }, config.delayError || 100);
-      })
+          throw reason;
+        })
+    }
+    return () => {
+      // cleanup the timeout if the component is unloaded
+      timeoutRef.valid = false;
+      if (timeoutRef.ref)
+        clearTimeout(timeoutRef.ref)
+      timeoutRef.ref   = null;
     }
   }, [ promise ]);
   return state;

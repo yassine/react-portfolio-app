@@ -6,16 +6,17 @@ import com.google.inject.Singleton
 import io.undertow.servlet.handlers.DefaultServlet
 import mu.KotlinLogging
 import java.io.IOException
-import java.io.Writer
 import java.lang.Exception
 import java.net.URL
+import java.util.stream.Collectors
 import javax.servlet.ServletException
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
 val NOT_FOUND   = "Not Found".toByteArray()
 val BAD_REQUEST = "Bad Request".toByteArray()
-val BAD_URL     = "No URL or Bad URL".toByteArray()
+val NO_URL      = "No URL".toByteArray()
+val BAD_URL     = "Bad URL".toByteArray()
 val OOC         = "Out of capacity".toByteArray()
 val QUOTE       = "\"".toByteArray()
 
@@ -41,11 +42,13 @@ class StordServlet @Inject constructor(private val urlDao: UrlDao): DefaultServl
       }
   }
 
-  override fun doPost(req: HttpServletRequest?, resp: HttpServletResponse) {
+  override fun doPost(req: HttpServletRequest, resp: HttpServletResponse) {
 
-    req?.reader?.lines()
-      ?.limit(1)
-      ?.filter(::isValidURL)
+    val lines = req.reader.lines().collect(Collectors.toList())
+    lines.takeUnless { it.isEmpty() }
+      ?.asSequence()
+      ?.filter{ isValidURL(it, resp) }
+      ?.take(1)
       ?.map { it.toByteArray() }
       ?.map(urlDao::store)
       ?.forEach { hash ->
@@ -55,10 +58,7 @@ class StordServlet @Inject constructor(private val urlDao: UrlDao): DefaultServl
           // no available key, we're hitting in the key space limit
           writeString(OOC, resp, 500)
         }
-      }
-      ?: resp.also {
-        writeString(BAD_URL, resp, 500)
-      }
+      } ?: writeString(NO_URL, resp, 500)
 
   }
 
@@ -70,11 +70,12 @@ class StordServlet @Inject constructor(private val urlDao: UrlDao): DefaultServl
     resp.outputStream.flush()
   }
 
-  private fun isValidURL(url: String): Boolean{
+  private fun isValidURL(url: String, resp: HttpServletResponse): Boolean{
     return try {
       URL(url)
       true
     } catch (e: Exception) {
+      writeString(BAD_URL, resp, 500)
       logger.error(e.message)
       false
     }

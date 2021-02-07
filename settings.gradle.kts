@@ -9,6 +9,9 @@ pluginManagement {
 }
 
 rootProject.name = "stord-shortener"
-include(":stord-shortener-app")
-include(":stord-shortener-service")
-include(":stord-shortener-deployment")
+
+include("stord-shortener-app:app")
+include("stord-shortener-app")
+include("stord-shortener-service")
+include("stord-shortener-deployment")
+

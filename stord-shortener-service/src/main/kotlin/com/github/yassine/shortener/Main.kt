@@ -15,11 +15,14 @@ import io.undertow.servlet.api.ListenerInfo
 
 const val CONFIG_FILE = "config.file"
 
+var server: Undertow? = null
+
 fun main(args: Array<String>) {
-  undertow(args[0]).start()
+  server = undertow(args[0])
+  server?.start()
 }
 
-fun undertow(config: String, port: Int = 8080): Undertow {
+fun undertow(config: String, port: Int = 8888): Undertow {
 
   val servletBuilder: DeploymentInfo = Servlets.deployment()
     .setClassLoader(StordServlet::class.java.classLoader)

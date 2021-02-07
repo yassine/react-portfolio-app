@@ -1,21 +1,20 @@
 @import "shades.vars";
 
-$color-success: #A4FF53;
-$color-success-text: black;
+$color-success: #5fa016;
+$color-success-text: white;
 $color-error: #ed1b2e;
 $color-error-text: white;
 $color-warning: orange;
 $color-warning-text: white;
 
-$color-active: #DDCA2E;
-$color-active: #8238ff;
-$color-active-secondary: yellow;
-$color-active-text: white;
+$color-active: #ff008f;
+$color-active-secondary: $color-active;
+$color-active-text: $grey-2;
 $color-disabled: #777;
-$color-form-placeholder: #8b949d;
+$color-form-placeholder: $grey-1;
 $color-text-disable: #555;
 
-$color-primary: #1d2d3a;
+$color-primary: white;
 $color-primary-shade-1: lighten($color-primary, 10%);
 $color-primary-shade-2: lighten($color-primary, 20%);
 $color-primary-shade-3: lighten($color-primary, 30%);
@@ -26,26 +25,29 @@ $color-primary-shade-7: lighten($color-primary, 70%);
 $color-primary-shade-8: lighten($color-primary, 80%);
 $color-primary-shade-9: lighten($color-primary, 90%);
 
-$color-primary-text: white;
+$color-primary-text: $grey-3;
 $color-primary-text-active: $color-active;
 $color-primary-text-disabled: $color-disabled;
 
 $color-input: white;
-$color-input-text: #333;
-$color-input-label: #fff;
+$color-input-text: #555;
+$color-input-label: $color-primary-text;
 $color-input-placeholder: $color-form-placeholder;
-$color-input-border: $grey-4;
+$color-input-border: $grey-12;
 
 $color-button: $color-active;
-$color-button-text: $color-active-text;
+$color-button-text: white;
 $color-button-inactive: $grey-5;
 $color-button-text-inactive: $grey-3;
 
 $color-nav-text: white;
-
-$card-background: rgba(white, 0.1);
-$card-shadow: rgba(white, 0.1);
-
-$color-logo: white;
-$color-logo-shadow: lighten(black, 0.2);
+$card-background: white;
+$card-border-color: $grey-12;
+$card-shadow: rgba(black, 0.1);
+$color-logo: $color-active;
+$color-logo-shadow: rgba(black, 0.2);
 $color-logo-icon: $color-active-secondary;
+
+$color-text-area-shadow: rgba(darken(#f0efeb, 10%), .9);
+$color-text-area-color: $grey-3;
+$color-text-area-placeholder: $color-form-placeholder;

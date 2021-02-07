@@ -1,6 +1,7 @@
-const path = require('path');
-const SRC_DIR = path.join(process.cwd(), 'src');
-const webpack = require('webpack')
+const path          = require('path');
+const SRC_DIR       = path.join(process.cwd(), 'src');
+const webpack       = require('webpack')
+
 module.exports = {
   context: SRC_DIR,
   mode: 'development',
@@ -20,16 +21,17 @@ module.exports = {
         ]
       },
       {
-        test: /\.static\.scss/,
-        use: [
+        test : /\.static\.scss/,
+        use  : [
           'style-loader',
           'css-loader',
           {
-            loader: 'sass-loader',
-            options: {
-              implementation: require('sass'),
-              sassOptions: {
-                includePaths: [
+            loader  : 'sass-loader',
+            options : {
+              sassOptions    : {
+                functions: require('node-sass-json-vars'),
+                configPath:  'resources/sass.json',
+                includePaths : [
                   'resources'
                 ]
               }
@@ -38,17 +40,19 @@ module.exports = {
         ]
       },
       {
-        test: /\.s[ac]ss$/i,
+        test : /\.s[ac]ss$/i,
         exclude: /\.static\.scss/,
-        use: [
+        use  : [
           'style-loader',
           'css-loader?modules=true',
           {
-            loader: 'sass-loader',
-            options: {
-              implementation: require('sass'),
-              sassOptions: {
-                includePaths: [
+            loader  : 'sass-loader',
+            options : {
+              implementation : require('node-sass'),
+              sassOptions    : {
+                functions: require('node-sass-json-vars'),
+                configPath:  'resources/sass.json',
+                includePaths : [
                   'resources'
                 ]
               }
@@ -57,13 +61,25 @@ module.exports = {
         ]
       },
       {
-        test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
-        use: [
+        test : /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+        use  : [
           {
-            loader: 'file-loader',
-            options: {
-              name: '[name].[ext]',
-              outputPath: 'fonts/'
+            loader  : 'file-loader',
+            options : {
+              name       : '[name].[ext]',
+              outputPath : 'fonts/'
+            }
+          }
+        ]
+      },
+      {
+        test : /\.(jpg|jpeg|png)(\?v=\d+\.\d+\.\d+)?$/,
+        use  : [
+          {
+            loader  : 'file-loader',
+            options : {
+              name       : '[name].[ext]',
+              outputPath : 'images/'
             }
           }
         ]

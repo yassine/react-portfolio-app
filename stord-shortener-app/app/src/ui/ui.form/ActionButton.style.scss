@@ -2,7 +2,7 @@
 @import "form.vars";
 @import "layout.vars";
 
-$button-height: $form-base-height;
+$button-height: $form-button-base-height;
 
 .wrapper {
 
@@ -11,7 +11,7 @@ $button-height: $form-base-height;
 
   font-family: $font-heading;
   font-weight: bold;
-  font-size: 12px;
+  font-size: $text-size-large;
 
   border-radius: $form-border-radius;
   transition: background-color 0.2s 0s ease-in,
@@ -58,10 +58,10 @@ $button-height: $form-base-height;
   }
 }
 
-@import "palette-theme-dark.vars";
+@import "theme-dark.vars";
 @include theme('theme-dark');
 
-@import "palette-theme-light.vars";
+@import "theme-light.vars";
 @include theme('theme-light');
 
 /*

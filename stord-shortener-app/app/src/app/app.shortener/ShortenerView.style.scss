@@ -5,12 +5,8 @@
 .group {
 
   position: relative;
-  width: $card-width - 2 * $card-padding;
-  & > * {
-    &:not(:first-of-type) {
-      margin-top: 3 * $base-indent;
-    }
-  }
+  width: 100%;
+  height: 100%;
 
   &.visible {
     z-index: 1;
@@ -32,15 +28,28 @@
 }
 
 .input {
-  width: $card-width - 2 * $card-padding;
+  width: 100%;
+  margin-top: 15%;
+  & > TEXTAREA {
+    width: 100%;
+  }
+  & > INPUT {
+    width: 100%;
+  }
 }
 
 .buttonGroup {
-  width: inherit;
+  margin-top: auto;
+  margin-bottom: 2 * $base-indent;
+  width: 100%;
+}
+
+.shortenButton, .callout {
+  margin: auto auto 0;
 }
 
 .shortenButton {
-  margin: 0 auto;
+  margin-bottom: 2 * $base-indent;
 }
 
 .thankButton {
@@ -48,35 +57,36 @@
 }
 
 .callout {
+  display: block;
   padding : $base-indent $base-indent;
   border-radius: $form-border-radius;
-  font-family: $font-heading;
+  font-family: $font-paragraph;
   font-size: $text-size-small;
-  animation: calloutIn 0.7s 0s;
+  line-height: 1.5 * $text-size-small;
+  font-weight: bold;
   min-width: 100%;
-  visibility: hidden;
+  min-height: 5 * $text-size-small;
+  opacity: 0;
   margin-top: 2 * $base-indent;
   &.error {
-    visibility: visible;
+    transition: opacity 0.3s 0s;
+    opacity: 1;
   }
 }
 
 @mixin theme($theme) {
   .#{$theme} {
     &.callout {
-      color: $color-primary-text;
-      &.error {
-        background: lighten($color-error, 30%);
-        color: $color-error;
-      }
+      color: $color-error-text;
+      background: $color-error;
     }
   }
 }
 
-@import "palette-theme-light.vars";
+@import "theme-light.vars";
 @include theme('theme-light');
 
-@import "palette-theme-dark.vars";
+@import "theme-dark.vars";
 @include theme('theme-dark');
 
 @keyframes calloutIn {
@@ -88,10 +98,19 @@
   }
 }
 
+@keyframes calloutOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
 @keyframes moveIn {
   from {
     opacity: 0;
-    transform: translateY(-45px);
+    transform: translateY(-5x);
   }
   to {
     opacity: 1;

@@ -1,6 +1,6 @@
 plugins {
   kotlin("jvm") version "1.4.20"
-  id("com.palantir.docker") version "0.22.1"
+  id("com.palantir.docker") version "0.26.0"
   jacoco
 }
 
@@ -9,6 +9,7 @@ version = "0.1.0-SNAPSHOT"
 
 repositories {
   mavenCentral()
+  jcenter()
 }
 
 docker {
@@ -18,13 +19,6 @@ docker {
   files(tasks.findByName("jar")?.outputs, "config.yaml")
   pull(false)
   noCache(true)
-}
-
-allprojects {
-  repositories {
-    mavenCentral()
-    jcenter()
-  }
 }
 
 dependencies {
@@ -75,5 +69,5 @@ tasks {
 
 
 tasks.findByPath("docker")?.apply {
-  dependsOn("jar")
+  dependsOn("test", "jar")
 }

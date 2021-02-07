@@ -1,3 +1,16 @@
 @import "layout.vars";
 @import "form.vars";
 @import "typography";
+
+.theme-image.theme-dark {
+  //background: linear-gradient(rgba(purple,1), darken(rgba(purple,1), 15%)) !important;
+  background: linear-gradient(rgba(purple,.4), darken(rgba(purple,1), 15%)), url('images/stars.png') !important;
+
+  background-size: cover !important;
+}
+.theme-image.theme-light {
+  //background: linear-gradient(#f0efeb, #fdfcfc) !important;
+  background: linear-gradient(rgba(seashell, 1), darken(seashell, 5%)), url('images/stars.png') !important;
+  background: white;
+  background-size: cover !important;
+}

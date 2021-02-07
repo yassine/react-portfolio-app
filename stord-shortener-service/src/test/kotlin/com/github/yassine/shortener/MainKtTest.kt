@@ -23,14 +23,13 @@ import java.util.concurrent.TimeUnit
 
 object ApiTest: Spek({
 
-  var server: Undertow? = null
-  val port = 9080
+  val port = 8888
 
   describe("when a i request a non existing key from the api") {
 
     it("i should get a 404 response code") {
       Given {
-          port(port)
+        port(port)
       } When {
         get("/")
       } Then {
@@ -86,6 +85,40 @@ object ApiTest: Spek({
 
   }
 
+  describe("when i post an invalid url") {
+
+    it("i should get an error if I post an invalid URL") {
+      Given {
+        port(port)
+        body("blah blah blah")
+      } When {
+        post("/")
+      } Then {
+        statusCode(500)
+      }
+    }
+
+    it("i should get an error if I post no URL") {
+      Given {
+        port(port)
+      } When {
+        post("/")
+      } Then {
+        statusCode(500)
+      }
+    }
+
+    it("i should get an error if I request an invalid path") {
+      Given {
+        port(port)
+      } When {
+        get("/invalid/path")
+      } Then {
+        statusCode(500)
+      }
+    }
+  }
+
   beforeGroup {
     //start the server in a new thread
     GlobalScope.launch { // launch a new coroutine in background and continue
@@ -93,8 +126,7 @@ object ApiTest: Spek({
       val config = File(dir, "config.yaml")
       ApiTest::class.java.getResourceAsStream("/test-config.yaml")
       copy(ApiTest::class.java.getResourceAsStream("/test-config.yaml"), FileOutputStream(config))
-      server = undertow(config.absolutePath, port)
-      server?.start()
+      main(arrayOf(config.absolutePath))
     }
 
     // wait for it to be online

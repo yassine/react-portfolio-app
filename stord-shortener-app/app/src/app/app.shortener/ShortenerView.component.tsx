@@ -16,11 +16,9 @@ export function ShortenerView() {
   return <React.Fragment>
     {
       <ShortenerPromptComponent
-        visible  = {!state.shortUrl}
-        onSubmit = { url => axios.post(api, url).then(({data}) => {
-          return data
-        })}
-        onUserReady = {(status, val) => {
+        visible     = { !state.shortUrl }
+        onSubmit    = { url => axios.post(api, url).then(({data}) => data ) }
+        onUserReady = { (status, val) => {
           const url = status ? `${window.location}${val}` : val;
           dispatch({ type: 'short.result', data: url, success: status })
         }} />

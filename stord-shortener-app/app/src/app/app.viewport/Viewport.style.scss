@@ -1,29 +1,38 @@
 @import 'layout.vars';
 @import "typography";
 
+.main, .viewport {
+  width: 100%;
+  height: 100%;
+  transition: background .3s 0s ease-in;
+}
+
 .viewport {
   height: 100%;
-  width: 100%;
   overflow: hidden;
 }
 
 .main {
-  padding: $content-padding $content-padding;
   width: 100%;
 }
 
 .logo {
   font-family: 'pacifico', sans-serif;
-  margin: 25px auto 120px;
+  margin: 50px auto 50px;
   font-size: $text-size-xxlarge;
+  transition: all 0.3s 0s ease-in;
 }
+
 .icon {
   margin: 0 auto;
   transform: rotateZ(-90deg);
+  transition: fill 0.3s 0s ease-in;
 }
+
 .card {
   position: relative;
   padding-top: 75px;
+  height: 100%;
 }
 
 .switch {
@@ -36,10 +45,13 @@
   .#{$theme} {
     &.viewport, &.main {
       background: $color-primary;
+      background: #070912;
     }
+
     &.icon {
       fill: $color-logo-icon;
     }
+
     &.logo {
       color: $color-logo;
       text-shadow: 1px 1px $color-logo-shadow;
@@ -47,8 +59,8 @@
   }
 }
 
-@import "palette-theme-dark.vars";
+@import "theme-dark.vars";
 @include theme('theme-dark');
 
-@import "palette-theme-light.vars";
+@import "theme-light.vars";
 @include theme('theme-light');

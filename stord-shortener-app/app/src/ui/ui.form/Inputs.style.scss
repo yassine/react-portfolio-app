@@ -1,0 +1,79 @@
+@import "typography";
+@import "form.vars";
+
+.input, .label, .textarea {
+  transition : all 0.3s 0s ease-in;
+}
+
+.textarea, .input {
+
+  padding       : 5px;
+  border        : 0;
+  resize        : none;
+  outline       : none;
+  font-weight   : bold;
+  font-size     : $text-size-normal;
+  font-family   : $font-paragraph;
+}
+
+.input {
+  height  : $form-base-height;
+}
+
+.textarea {
+  font-size: $text-size-xlarge;
+  &::placeholder {
+    font-weight: normal;
+    transition: opacity .3s 0s ease-in;
+    opacity: .4;
+  }
+}
+
+.label {
+  font-family : $font-paragraph;
+  font-size   : $text-size-normal;
+  line-height : 3 * $text-size-small;
+  font-weight: bold;
+}
+
+
+/*
+  Theming
+ */
+@mixin theme($theme) {
+  .#{$theme} {
+    &.input {
+      color         : $color-input-text;
+      background    : $color-input;
+      border-color  : $color-input-border;
+      background    : lighten(rgba($color-primary, 1), 15%);
+      box-shadow    : 0 0 5px 1px $color-text-area-shadow inset;
+      &::placeholder {
+        color       : $color-input-placeholder;
+      }
+    }
+    &.label {
+      color: $color-input-label;
+    }
+    &.textarea {
+      background : $color-input;
+      color      : $color-text-area-color;
+      box-shadow : 0 0 5px 1px $color-text-area-shadow inset;
+      &::placeholder {
+        color    : $color-text-area-placeholder;
+      }
+      &:focus {
+        &::placeholder {
+          opacity: .1;
+        }
+      }
+
+    }
+  }
+}
+
+@import "theme-light.vars";
+@include theme('theme-light');
+
+@import "theme-dark.vars";
+@include theme('theme-dark');
