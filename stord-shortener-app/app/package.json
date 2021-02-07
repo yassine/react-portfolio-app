@@ -64,6 +64,7 @@
     "webpack-karma-jasmine": "^4.0.0"
   },
   "scripts": {
+    "clean": "rm -rf dist",
     "dev": "webpack serve --config ./packaging/webpack.config.js",
     "build": "webpack --config ./packaging/webpack-prod.config.js",
     "test": "karma start ./packaging/karma.config.js",

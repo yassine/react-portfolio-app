@@ -15,6 +15,7 @@ dockerCompose {
 }
 
 tasks.findByPath("dockerComposeUp")?.apply {
+
   dependsOn(":stord-shortener-app:docker")
   dependsOn(":stord-shortener-service:docker")
   dependsOn("generateDockerCompose")

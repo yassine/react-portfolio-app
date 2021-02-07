@@ -68,6 +68,6 @@ tasks {
 }
 
 
-tasks.findByPath("docker")?.apply {
+tasks.findByPath("dockerPrepare")?.apply {
   dependsOn("test", "jar")
 }

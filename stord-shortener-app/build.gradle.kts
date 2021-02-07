@@ -8,7 +8,6 @@ version = "0.1.0-SNAPSHOT"
 tasks {
 
   docker {
-
     name = "yassine/stord-shortener-app:0.1.0"
     setDockerfile(file("Dockerfile"))
     files(file("app"), file("server"))
@@ -29,11 +28,7 @@ tasks {
 
 }
 
-tasks.findByPath("docker")?.apply {
-  dependsOn(":stord-shortener-app:app:ci")
+tasks.findByPath("dockerPrepare")?.apply {
+  dependsOn(":stord-shortener-app:app:dist")
 }
 
-
-tasks.register("app-ci") {
-  dependsOn("app:ci")
-}
