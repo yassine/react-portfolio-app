@@ -19,9 +19,9 @@ object UrlDaoTest : Spek({
   describe("when i store a url") {
 
     it("i should be able recover it from the key associated with that url") {
-      val key = target.store("hello") ?: error("")
+      val key = target.store("hello".toByteArray()) ?: error("")
       val value = target.get(key)
-      expect { that(key == value) }
+      expect { that(key contentEquals value) }
     }
 
   }
@@ -29,7 +29,7 @@ object UrlDaoTest : Spek({
   describe("when i ask for a non existing url key") {
 
     it("i should get null") {
-      val nonExisting = target.get("hello")
+      val nonExisting = target.get("hello".toByteArray())
       expect { that(nonExisting == null) }
     }
 

@@ -24,8 +24,8 @@ object RocksDbUrlDaoTest: Spek({
         }
       }
       val urlDao = RocksDbUrlDao(rockDB)
-      val hash = urlDao.store("hello")
-      expectThat(hash?.length == MIN_HASH_LENGTH + 1).isTrue()
+      val hash = urlDao.store("hello".toByteArray())
+      expectThat(hash?.size == MIN_HASH_LENGTH + 1).isTrue()
     }
   }
 
@@ -34,7 +34,7 @@ object RocksDbUrlDaoTest: Spek({
       val rockDB = Mockito.mock(RocksDB::class.java)
       Mockito.`when`(rockDB.get(Mockito.any())).thenReturn(ByteArray(15))
       val urlDao = RocksDbUrlDao(rockDB)
-      val hash = urlDao.store("hello")
+      val hash = urlDao.store("hello".toByteArray())
       expectThat(hash).isNull()
     }
   }

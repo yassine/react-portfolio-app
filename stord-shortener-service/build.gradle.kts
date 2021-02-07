@@ -40,7 +40,7 @@ dependencies {
   implementation("com.fasterxml.jackson.core:jackson-core:2.11.3")
   implementation("com.fasterxml.jackson.core:jackson-databind:2.11.3")
   implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.11.3")
-  implementation("io.github.microutils:kotlin-logging:1.7.8")
+  implementation("io.github.microutils:kotlin-logging-jvm:2.0.2")
   implementation("ch.qos.logback:logback-classic:1.2.3")
 
   testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2")

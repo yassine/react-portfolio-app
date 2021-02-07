@@ -8,7 +8,7 @@ import java.util.regex.Pattern
 
 object HashServiceTest : Spek({
 
-  val hash = HashService.encode("key".toByteArray())
+  val hash = String(HashService.encode("key".toByteArray()).toByteArray())
 
   describe("when i ask to hash a key") {
     it("I should get a hash consisting only for UTF-8 encoded alpha-num characters ") {
@@ -19,7 +19,7 @@ object HashServiceTest : Spek({
 
   describe("when i ask again to hash the same key") {
     it("I should get a different hash") {
-      val hash2 = HashService.encode("key".toByteArray())
+      val hash2 = String(HashService.encode("key".toByteArray()).toByteArray())
       expect { that(hash != hash2) }
     }
   }

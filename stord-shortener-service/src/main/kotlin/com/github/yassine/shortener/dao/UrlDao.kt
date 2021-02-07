@@ -1,6 +1,6 @@
 package com.github.yassine.shortener.dao
 
 interface UrlDao {
-  fun store(url: String): String?
-  fun get(key: String): String?
+  fun store(url: ByteArray): ByteArray?
+  fun get(key: ByteArray): ByteArray?
 }

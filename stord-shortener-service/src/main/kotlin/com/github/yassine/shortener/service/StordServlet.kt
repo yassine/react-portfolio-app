@@ -13,11 +13,11 @@ import javax.servlet.ServletException
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
-const val NOT_FOUND   = "Not Found"
-const val BAD_REQUEST = "Bad Request"
-const val BAD_URL     = "No URL or Bad URL"
-const val OOC         = "Out of capacity"
-const val QUOTE       = "\""
+val NOT_FOUND   = "Not Found".toByteArray()
+val BAD_REQUEST = "Bad Request".toByteArray()
+val BAD_URL     = "No URL or Bad URL".toByteArray()
+val OOC         = "Out of capacity".toByteArray()
+val QUOTE       = "\"".toByteArray()
 
 @Singleton
 class StordServlet @Inject constructor(private val urlDao: UrlDao): DefaultServlet() {
@@ -28,7 +28,7 @@ class StordServlet @Inject constructor(private val urlDao: UrlDao): DefaultServl
   override fun doGet(req: HttpServletRequest, resp: HttpServletResponse) {
     req.pathInfo.split("/")
       .takeIf { it.size == 2 }
-      ?.let { it[1] }
+      ?.let { it[1].toByteArray() }
       ?.let { key ->
         urlDao.get(key)?.also {
           writeString(it, resp, 200)
@@ -46,6 +46,7 @@ class StordServlet @Inject constructor(private val urlDao: UrlDao): DefaultServl
     req?.reader?.lines()
       ?.limit(1)
       ?.filter(::isValidURL)
+      ?.map { it.toByteArray() }
       ?.map(urlDao::store)
       ?.forEach { hash ->
         hash?.also {
@@ -61,13 +62,12 @@ class StordServlet @Inject constructor(private val urlDao: UrlDao): DefaultServl
 
   }
 
-  private fun writeString(value: String, resp: HttpServletResponse, status: Int) {
+  private fun writeString(value: ByteArray, resp: HttpServletResponse, status: Int) {
     resp.status = status
-    // avoiding (purposely) string interpolation to not pollute the heap with a non necessary string
-    resp.writer.write(QUOTE)
-    resp.writer.write(value)
-    resp.writer.write(QUOTE)
-    resp.writer.flush()
+    resp.outputStream.write(QUOTE)
+    resp.outputStream.write(value)
+    resp.outputStream.write(QUOTE)
+    resp.outputStream.flush()
   }
 
   private fun isValidURL(url: String): Boolean{

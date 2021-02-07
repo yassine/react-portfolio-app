@@ -36,7 +36,7 @@ fun undertow(config: String, port: Int = 8080): Undertow {
   val path = Handlers.path(Handlers.redirect("/"))
               .addPrefixPath("/", manager.start())
 
-  val server: Undertow = Undertow.builder()
+  return Undertow.builder()
     .setSocketOption(Options.REUSE_ADDRESSES, true)
     .setSocketOption(Options.TCP_NODELAY, true)
     .setDirectBuffers(true)
@@ -46,8 +46,6 @@ fun undertow(config: String, port: Int = 8080): Undertow {
     .addHttpListener(port, "0.0.0.0")
     .setHandler(path)
     .build()
-
-  return server
 
 }
 

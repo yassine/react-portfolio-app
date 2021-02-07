@@ -15,15 +15,15 @@ object HashService {
     'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V',
     'W', 'X', 'Y', 'Z', '0', '1', '2', '3',
     '4', '5', '6', '7', '8', '9'
-  )
+  ).map { it.toByte() }
 
   fun hash(data: ByteArray): ByteArray = MessageDigest.getInstance("SHA-256")
     .apply { update(ByteArray(4).also { java.util.Random().nextBytes(it) }) }
     .digest(data)
 
 
-  fun encode(data: ByteArray) = String(data.flatMap {
-    listOf(table[abs(it.toInt()) % table.size])
-  }.toCharArray())
+  fun encode(data: ByteArray) = data.map {
+    table[abs(it.toInt()) % table.size]
+  }
 
 }
