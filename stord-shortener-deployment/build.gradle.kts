@@ -11,7 +11,7 @@ repositories {
 
 dockerCompose {
   setTemplate("docker-compose-template.yml")
-  setDockerComposeFile("docker-compose.yml")
+  setDockerComposeFile("./build/docker-compose.yml")
 }
 
 tasks.findByPath("dockerComposeUp")?.apply {
