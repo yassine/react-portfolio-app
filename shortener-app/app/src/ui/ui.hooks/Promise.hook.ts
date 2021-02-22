@@ -5,7 +5,7 @@ import pMinDelay                          from 'p-min-delay';
 const DEFAULT_TIMEOUT = 3000;
 
 /**
- * Code is a bit complex/imperative due to the fact that it needs to handle the case of (promise) callbacks
+ * Code is a bit imperative as it needs to handle the case of callbacks
  * that fires after the component has been unloaded from the DOM by React.
  */
 export function usePromiseState(promise, config: PromiseStateConfig): PromiseHookState {

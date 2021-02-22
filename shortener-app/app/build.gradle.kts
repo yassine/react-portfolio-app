@@ -22,12 +22,18 @@ tasks.register<com.moowork.gradle.node.npm.NpmTask>("dist-clean") {
 }
 
 tasks.register<com.moowork.gradle.node.npm.NpmTask>("dist") {
-  dependsOn(tasks.findByName("yarn"))
   dependsOn(tasks.findByName("dist-clean"))
   dependsOn(tasks.findByName("ci"))
   setArgs(listOf("run", "build"))
 }
+
+tasks.register<com.moowork.gradle.node.npm.NpmTask>("js-unit-tests") {
+  dependsOn(tasks.findByName("yarn"))
+  setArgs(listOf("run", "test"))
+}
+
 tasks.register<com.moowork.gradle.node.npm.NpmTask>("ci") {
   dependsOn(tasks.findByName("yarn"))
+  dependsOn(tasks.findByName("js-unit-tests"))
   setArgs(listOf("run", "ci"))
 }

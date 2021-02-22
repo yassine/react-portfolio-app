@@ -66,7 +66,7 @@
     "clean": "rm -rf dist",
     "dev": "webpack serve --config ./packaging/webpack.config.js",
     "build": "webpack --config ./packaging/webpack-prod.config.js",
-    "test": "karma start ./packaging/karma.config.js",
+    "test": "karma start ./packaging/karma-ci.config.js",
     "test-watch": "karma start ./packaging/karma.config.js",
     "e2e-serve": "webpack serve --config ./packaging/webpack-e2e.config.js",
     "e2e-test": "cypress run --headless",

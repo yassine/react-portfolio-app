@@ -27,7 +27,7 @@ module.exports = function (config) {
     //executes the tests whenever one of watched files changes
     autoWatch: true,
     //if true, Karma will run tests and then exit browser
-    singleRun: false,
+    singleRun: true,
     //if true, Karma fails on running empty test-suites
     failOnEmptyTestSuite: false,
     //reduce the kind of information passed to the bash
