@@ -4,10 +4,20 @@
 
 ### Performance
 Backend average latency is less than 1ms ( logged in microseconds 😇 ).
-e2e average latency : 452 µs
-e2e max latency : 12918 µs
-e2e min latency : 17 µs
-throughput: 8688 requests /s
+
+Writes:
+
+- e2e average latency : 452 µs
+- e2e max latency : 12918 µs
+- e2e min latency : 17 µs
+- throughput: 8688 requests /s
+
+Reads:
+
+- e2e average latency : 693 µs
+- e2e max latency : 9487 µs
+- e2e min latency : 13 µs
+- throughput: 5737/s
 
 ### Coverage
 To generate coverage reports run:
