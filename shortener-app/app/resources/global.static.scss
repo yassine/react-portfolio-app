@@ -1,0 +1,13 @@
+@import "layout.vars";
+@import "form.vars";
+@import "typography";
+
+.theme-image.theme-dark {
+  background: linear-gradient(rgba(purple,.4), darken(rgba(purple,1), 15%)), url('images/stars.jpg') !important;
+  background-size: cover !important;
+}
+.theme-image.theme-light {
+  background: linear-gradient(rgba(seashell, 1), darken(seashell, 5%)) !important;
+  background: white;
+  background-size: cover !important;
+}

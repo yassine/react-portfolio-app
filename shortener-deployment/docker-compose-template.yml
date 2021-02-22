@@ -1,0 +1,15 @@
+version: "2.4"
+services:
+  app:
+    container_name: shortener-app
+    image: 'yassine/shortener-app:0.1.0'
+    depends_on:
+      - api
+    ports:
+      - "9080:8080"
+    command: node index.js http://shortener-service:8888
+  api:
+    container_name: shortener-service
+    image: 'yassine/shortener-service:0.1.0'
+    ports:
+      - "9081:8888"
