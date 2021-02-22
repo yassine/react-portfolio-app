@@ -14,7 +14,7 @@ describe("when i request the state of a promise", function () {
       setTimeout(() => resolve(true), SERVICE_DURATION)
     })
 
-    const { result } = renderHook(() => usePromiseState(servicePromise, {
+    const { result, waitForNextUpdate } = renderHook(() => usePromiseState(servicePromise, {
       delaySuccess: RESULT_DURATION,
       delayEnd: END_DURATION
     }))
@@ -22,14 +22,14 @@ describe("when i request the state of a promise", function () {
 
     expect(state.loading).toBe(true)
     expect(state.active).toBe(true)
+    await waitForNextUpdate();
 
-    await task_result();
     state = result.current
     expect(state.active).toBe(true)
     expect(state.success).toBe(true)
     expect(state.loading).toBe(false)
 
-    await task_end();
+    await waitForNextUpdate();
     state = result.current
     expect(state.active).toBe(false)
     expect(state.loading).toBe(false)
@@ -48,7 +48,7 @@ describe("when i request the state of a promise", function () {
 
     servicePromise.catch(async e => {
 
-      const { result } = renderHook(() => usePromiseState(servicePromise, {
+      const { result, waitForNextUpdate } = renderHook(() => usePromiseState(servicePromise, {
         delayError: RESULT_DURATION,
         delayEnd: END_DURATION
       }))
@@ -56,7 +56,7 @@ describe("when i request the state of a promise", function () {
 
       expect(state.loading).toBe(true)
       expect(state.active).toBe(true)
-      await task_service();
+      await waitForNextUpdate();
 
       state = result.current
       let { active, error, loading } = state
@@ -64,7 +64,7 @@ describe("when i request the state of a promise", function () {
       expect(error).toBe(true)
       expect(loading).toBe(false)
 
-      await task_end();
+      await waitForNextUpdate();
       expect(state.active).toBe(false)
       expect(state.loading).toBe(false)
       expect(state.success).toBe(false)
@@ -78,20 +78,3 @@ describe("when i request the state of a promise", function () {
 
 });
 
-async function task_service() {
-  return new Promise((resolve) => {
-    setTimeout(() => resolve(true), SERVICE_DURATION)
-  });
-}
-
-async function task_result() {
-  return new Promise((resolve) => {
-    setTimeout(() => resolve(true), RESULT_DURATION)
-  });
-}
-
-async function task_end() {
-  return new Promise((resolve) => {
-    setTimeout(() => resolve(true), END_DURATION)
-  });
-}
