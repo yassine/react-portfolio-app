@@ -30,7 +30,7 @@ object RocksDbUrlDaoTest: Spek({
   }
 
   describe("when all possible key length fails") {
-    it("a longer hash key should be used") {
+    it("I should get null as a hash") {
       val rockDB = Mockito.mock(RocksDB::class.java)
       Mockito.`when`(rockDB.get(Mockito.any())).thenReturn(ByteArray(15))
       val urlDao = RocksDbUrlDao(rockDB)

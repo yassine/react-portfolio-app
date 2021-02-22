@@ -6,7 +6,6 @@ import com.google.inject.Singleton
 import io.undertow.servlet.handlers.DefaultServlet
 import mu.KotlinLogging
 import java.io.IOException
-import java.lang.Exception
 import java.net.URL
 import java.util.stream.Collectors
 import javax.servlet.ServletException

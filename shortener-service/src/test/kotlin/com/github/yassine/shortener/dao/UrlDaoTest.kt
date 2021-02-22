@@ -5,8 +5,6 @@ import com.github.yassine.shortener.core.DbModule
 import com.google.common.io.Files
 import com.google.inject.AbstractModule
 import com.google.inject.Guice
-import org.mockito.Mockito.*
-import org.rocksdb.RocksDB
 import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.specification.describe
 import strikt.api.expect

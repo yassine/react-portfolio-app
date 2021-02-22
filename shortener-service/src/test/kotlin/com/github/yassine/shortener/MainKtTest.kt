@@ -6,7 +6,6 @@ import io.restassured.module.kotlin.extensions.Extract
 import io.restassured.module.kotlin.extensions.Given
 import io.restassured.module.kotlin.extensions.Then
 import io.restassured.module.kotlin.extensions.When
-import io.undertow.Undertow
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
@@ -124,7 +123,6 @@ object ApiTest: Spek({
     GlobalScope.launch { // launch a new coroutine in background and continue
       val dir    = Files.createTempDir()
       val config = File(dir, "config.yaml")
-      ApiTest::class.java.getResourceAsStream("/test-config.yaml")
       copy(ApiTest::class.java.getResourceAsStream("/test-config.yaml"), FileOutputStream(config))
       main(arrayOf(config.absolutePath))
     }

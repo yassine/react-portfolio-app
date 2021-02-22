@@ -5,15 +5,15 @@ import com.github.yassine.shortener.core.GuiceServletConfig
 import com.github.yassine.shortener.service.ApplicationServlet
 import com.google.inject.Guice
 import com.google.inject.servlet.GuiceFilter
-import io.undertow.Undertow
-import io.undertow.servlet.api.FilterInfo
-import org.xnio.Options
-import javax.servlet.DispatcherType
 import io.undertow.Handlers
 import io.undertow.Handlers.redirect
+import io.undertow.Undertow
 import io.undertow.servlet.Servlets.defaultContainer
 import io.undertow.servlet.Servlets.deployment
+import io.undertow.servlet.api.FilterInfo
 import io.undertow.servlet.api.ListenerInfo
+import org.xnio.Options
+import javax.servlet.DispatcherType
 
 const val CONFIG_FILE = "config.file"
 
