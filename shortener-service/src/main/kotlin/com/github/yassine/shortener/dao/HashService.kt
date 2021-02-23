@@ -3,8 +3,9 @@ package com.github.yassine.shortener.dao
 import java.security.MessageDigest
 import kotlin.math.abs
 
-
 object HashService {
+
+  private val randomBuffer: ThreadLocal<ByteArray> = ThreadLocal.withInitial { ByteArray(4) { 0 } }
 
   private val table = listOf(
     'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h',
@@ -17,10 +18,11 @@ object HashService {
     '4', '5', '6', '7', '8', '9'
   ).map { it.toByte() }
 
-  fun hash(data: ByteArray): ByteArray = MessageDigest.getInstance("SHA-256")
-    .apply { update(ByteArray(4).also { java.util.Random().nextBytes(it) }) }
-    .digest(data)
-
+  fun hash(data: ByteArray, offset: Int, len: Int): ByteArray
+    = MessageDigest.getInstance("SHA-256")
+        .apply { update(randomBuffer.get().also { java.util.Random().nextBytes(it) }) }
+        .apply { update(data, offset, len) }
+        .digest()
 
   fun encode(data: ByteArray) = data.map {
     table[abs(it.toInt()) % table.size]

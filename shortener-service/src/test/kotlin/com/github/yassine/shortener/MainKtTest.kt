@@ -1,5 +1,8 @@
 package com.github.yassine.shortener
 
+import com.github.yassine.shortener.service.BAD_REQUEST
+import com.github.yassine.shortener.service.BAD_URL
+import com.github.yassine.shortener.service.NO_URL
 import com.google.common.io.ByteStreams.copy
 import com.google.common.io.Files
 import io.restassured.module.kotlin.extensions.Extract
@@ -94,6 +97,9 @@ object ApiTest: Spek({
         post("/")
       } Then {
         statusCode(500)
+      } Extract {
+        val message = this.body().asString()?.replace("\"", "")
+        expect { that(message == String(BAD_URL)).isTrue() }
       }
     }
 
@@ -104,6 +110,9 @@ object ApiTest: Spek({
         post("/")
       } Then {
         statusCode(500)
+      } Extract {
+        val message = this.body().asString()?.replace("\"", "")
+        expect { that(message == String(NO_URL)).isTrue() }
       }
     }
 
@@ -114,6 +123,9 @@ object ApiTest: Spek({
         get("/invalid/path")
       } Then {
         statusCode(500)
+      } Extract {
+        val message = this.body().asString()?.replace("\"", "")
+        expect { that(message == String(BAD_REQUEST)).isTrue() }
       }
     }
   }

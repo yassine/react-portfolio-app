@@ -1,6 +1,7 @@
 plugins {
   kotlin("jvm") version "1.4.20"
   id("com.palantir.docker") version "0.26.0"
+  id("org.sonarqube") version "3.1.1"
   jacoco
 }
 
@@ -10,6 +11,15 @@ version = "0.1.0-SNAPSHOT"
 repositories {
   mavenCentral()
   jcenter()
+}
+
+sonarqube {
+  properties {
+    property("sonar.verbose", "true")
+    property("sonar.sourceEncoding", "UTF-8")
+    property("sonar.projectKey", "shortener-service")
+    property("sonar.coverage.jacoco.xmlReportPaths", "${buildDir}/reports/jacoco/test/jacocoTestReport.xml")
+  }
 }
 
 docker {
@@ -67,11 +77,18 @@ tasks {
   }
 }
 
+tasks.jacocoTestReport {
+  reports {
+    xml.isEnabled = true
+  }
+}
 
 tasks.register("ci") {
   dependsOn(tasks.findByName("test"))
+  finalizedBy("jacocoTestReport")
 }
 
 tasks.findByPath("dockerPrepare")?.apply {
   dependsOn("ci", "jar")
 }
+
