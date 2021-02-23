@@ -1,1 +1,7 @@
 dbPath: /tmp/yassine-test
+listener:
+  bindAddress: 0.0.0.0
+  bindPort: 8888
+threads:
+  workers: 4
+  io: 4

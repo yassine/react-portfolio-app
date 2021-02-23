@@ -130,14 +130,14 @@ object ApiTest: Spek({
     // wait for it to be online
     await()
       .pollInterval(1, TimeUnit.SECONDS)
-      .atMost(60, TimeUnit.SECONDS)
+      .atMost(5, TimeUnit.SECONDS)
       .ignoreExceptions()
       .untilAsserted {
         OkHttpClient.Builder().build()
           .newCall(
             Request.Builder()
               .header("Accept", "application/json")
-              .url("http://localhost:${port}/should-not-exist")
+              .url("http://127.0.0.1:${port}/should-not-exist")
               .get().build()
           )
           .execute()
