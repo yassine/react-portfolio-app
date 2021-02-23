@@ -18,21 +18,25 @@ describe("when i request the state of a promise", function () {
       delaySuccess: RESULT_DURATION,
       delayEnd: END_DURATION
     }))
+
     let state = result.current
 
     expect(state.loading).toBe(true)
     expect(state.active).toBe(true)
+    expect(state.success).toBe(false)
+    expect(state.error).toBe(false)
     await waitForNextUpdate();
 
     state = result.current
+    expect(state.loading).toBe(false)
     expect(state.active).toBe(true)
     expect(state.success).toBe(true)
-    expect(state.loading).toBe(false)
+    expect(state.error).toBe(false)
 
     await waitForNextUpdate();
     state = result.current
-    expect(state.active).toBe(false)
     expect(state.loading).toBe(false)
+    expect(state.active).toBe(false)
     expect(state.success).toBe(false)
     expect(state.error).toBe(false)
 
@@ -56,6 +60,8 @@ describe("when i request the state of a promise", function () {
 
       expect(state.loading).toBe(true)
       expect(state.active).toBe(true)
+      expect(state.success).toBe(false)
+      expect(state.error).toBe(false)
       await waitForNextUpdate();
 
       state = result.current
@@ -63,6 +69,7 @@ describe("when i request the state of a promise", function () {
       expect(active).toBe(true)
       expect(error).toBe(true)
       expect(loading).toBe(false)
+      expect(state.error).toBe(false)
 
       await waitForNextUpdate();
       expect(state.active).toBe(false)
