@@ -31,4 +31,3 @@ tasks {
 tasks.findByPath("dockerPrepare")?.apply {
   dependsOn(":shortener-app:app:dist")
 }
-

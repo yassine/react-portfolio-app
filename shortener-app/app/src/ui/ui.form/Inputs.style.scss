@@ -6,7 +6,6 @@
 }
 
 .textarea, .input {
-
   padding       : 5px;
   border        : 0;
   resize        : none;
@@ -44,7 +43,6 @@
   .#{$theme} {
     &.input {
       color         : $color-input-text;
-      background    : $color-input;
       border-color  : $color-input-border;
       background    : lighten(rgba($color-primary, 1), 15%);
       box-shadow    : 0 0 5px 1px $color-text-area-shadow inset;

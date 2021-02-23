@@ -1,7 +1,6 @@
 import * as React   from 'react';
 import styles       from './FlexBox.component.scss'
 import { Property } from 'csstype';
-import { HBox }     from "ui.layout/HBox.component";
 
 interface DirectionProps {
   direction ?: Direction

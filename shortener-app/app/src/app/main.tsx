@@ -11,8 +11,8 @@ ReactDOM.render(
 
 if (module.hot) {
   module.hot.accept('./Application', () => {
-    const Application = require('./Application').Application;
-    ReactDOM.render(<Application />, document.getElementById('react-app'));
+    const App = require('./Application').Application;
+    ReactDOM.render(<App />, document.getElementById('react-app'));
   })
 }
 

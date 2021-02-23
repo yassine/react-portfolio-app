@@ -1,7 +1,7 @@
-import * as React                        from 'react';
-import { useContext, useMemo, useState } from 'react';
-import { HBox }                          from 'ui.layout';
-import { Icon }     from 'ui.icon';
+import * as React                                         from 'react';
+import { useContext, useState }                           from 'react';
+import { HBox }                                           from 'ui.layout';
+import { Icon }                                           from 'ui.icon';
 import { PromiseHookState, useCssState, usePromiseState } from 'ui.hooks';
 
 import styles             from './ActionButton.style.scss';
@@ -15,7 +15,7 @@ const PROMISE_CONFIG = {
 
 export const ActionButton = (props: ButtonProps) => {
 
-  const [promise, setPromise]
+  const [ promise, setPromise ]
     = useState(null);
 
   const promiseConfig = {
@@ -32,41 +32,41 @@ export const ActionButton = (props: ButtonProps) => {
   const theme = useContext(UIThemeContext);
 
   return <HBox alignContent = {"center"}
-               alignItems   = {"center"}
-               id           = { props.id }
-               onClick      = {() => onButtonClick(props, setPromise, promiseState)}
-               userClass    = {`${cssStateOf('wrapper', theme)} ${props.userClass} `}>
+               alignItems = {"center"}
+               id = {props.id}
+               onClick = {() => onButtonClick(props, setPromise, promiseState)}
+               userClass = {`${cssStateOf('wrapper', theme)} ${props.userClass} `}>
     {
       props.icon && !promiseState?.loading && !promiseState?.active &&
-      <Icon icon        = { props.icon }
-            height      = { props.iconHeight }
-            width       = { props.iconWidth }
-            userClass   = { cssStateOf('icon') } />
+      <Icon icon = {props.icon}
+            height = {props.iconHeight}
+            width = {props.iconWidth}
+            userClass = {cssStateOf('icon')} />
     }
     {
       promiseState?.loading &&
-      <Icon icon        = 'spinner'
-            userClass   = { cssStateOf('icon', 'spin') }
-            height      = { props.iconHeight }
-            width       = { props.iconWidth } />
+      <Icon icon = 'spinner'
+            userClass = {cssStateOf('icon', 'spin')}
+            height = {props.iconHeight}
+            width = {props.iconWidth} />
     }
     {
       promiseState?.success &&
-      <Icon icon        = 'check'
-            height      = { props.iconHeight }
-            width       = { props.iconWidth }
-            userClass   = { cssStateOf('icon') } />
+      <Icon icon = 'check'
+            height = {props.iconHeight}
+            width = {props.iconWidth}
+            userClass = {cssStateOf('icon')} />
     }
     {
       promiseState?.error &&
-      <Icon icon        = 'cross'
-            height      = { props.iconHeight }
-            width       = { props.iconWidth }
-            userClass   = { cssStateOf('icon') } />
+      <Icon icon = 'cross'
+            height = {props.iconHeight}
+            width = {props.iconWidth}
+            userClass = {cssStateOf('icon')} />
     }
     {
       props.label &&
-      <span> { props.label } </span>
+      <span> {props.label} </span>
     }
   </HBox>;
 };
@@ -92,14 +92,14 @@ function ButtonStyleReducer(props, promiseState: PromiseHookState) {
 }
 
 interface ButtonProps {
-  id  ?: string
+  id?: string
   icon?: string
   label: string
-  iconWidth   ?: number
-  iconHeight  ?: number
+  iconWidth?: number
+  iconHeight?: number
   userClass?: string
   disabled?: boolean
   onClick?: () => void | Promise<any>
-  onAsyncNotified ?: (boolean: boolean, result?: any, userContext?: any) => void
-  userContext     ?: any
+  onAsyncNotified?: (boolean: boolean, result?: any, userContext?: any) => void
+  userContext?: any
 }

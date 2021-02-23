@@ -3,13 +3,11 @@ import { useCssTheme } from 'ui.hooks/Theme.hook';
 
 export function useCssState(styles, reducer, ...dependencies) {
   const theme = useCssTheme() || ''
-  dependencies = dependencies || [];
 
-  if (process.env.NODE_ENV === 'development') {
+  if (process.env.NODE_ENV === 'development')
     // for development & qa, original classnames will be added as well
     // to ease automated qa tests. This branch will be dropped by webpack for the production build.
     return useCssStateDev(styles, reducer, ...dependencies);
-  }
 
   return useMemo(() => {
     const stateActivationObject = reducer(...dependencies);
@@ -28,7 +26,6 @@ export function useCssState(styles, reducer, ...dependencies) {
 
 function useCssStateDev(styles, reducer, ...dependencies) {
   const theme = useCssTheme() || ''
-  dependencies = dependencies || [];
   return useMemo(() => {
     const stateActivationObject = reducer(...dependencies);
     return (...classNames) => Object.keys(stateActivationObject)

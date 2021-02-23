@@ -1,4 +1,8 @@
 {
   "chromeWebSecurity": false,
-  "video": false
+  "video": false,
+  "integrationFolder": "test/e2e-tests",
+  "fixturesFolder": false,
+  "pluginsFile": "packaging/cypress/plugins/index.js",
+  "supportFile": "packaging/cypress/support/index.js"
 }

@@ -12,7 +12,7 @@ module.exports = function (config) {
     exclude: [],
     //files/patterns to load in the browser
     files: [
-      { pattern: 'test/**/*.tsx', watched: true, served: true, included: true },
+      { pattern: 'test/unit-tests/**/*.tsx', watched: true, served: true, included: true },
 
       /*parameters:
           watched: if autoWatch is true all files that have set watched to true will be watched for changes
@@ -86,8 +86,8 @@ module.exports = function (config) {
     webpack: webpack,
     preprocessors: {
       //add webpack as preprocessor to support require() in test-suits .js files
-      'test/**/*.ts': ['webpack'],
-      'test/**/*.tsx': ['webpack'],
+      'test/unit-tests/**/*.ts': ['webpack'],
+      'test/unit-tests/**/*.tsx': ['webpack'],
     },
     webpackMiddleware: {
       //turn off webpack bash output when run the tests

@@ -1,5 +1,6 @@
 plugins {
   id("com.github.node-gradle.node") version "2.2.4"
+  id("org.sonarqube") version "3.1.1"
 }
 
 group   = "yassine.assignments"
@@ -36,4 +37,16 @@ tasks.register<com.moowork.gradle.node.npm.NpmTask>("ci") {
   dependsOn(tasks.findByName("yarn"))
   dependsOn(tasks.findByName("js-unit-tests"))
   setArgs(listOf("run", "ci"))
+}
+
+sonarqube {
+  properties {
+    property("sonar.verbose", "true")
+    property("sonar.sourceEncoding", "UTF-8")
+    property("sonar.projectKey" , "shortener-app")
+    property("sonar.projectName" , "shortener-app")
+    property("sonar.sources" , "${projectDir}/src")
+    property("sonar.exclusions", "src/globals.d.ts")
+    property("sonar.typescript.lcov.reportPaths", "${projectDir}/coverage/lcov.info")
+  }
 }
