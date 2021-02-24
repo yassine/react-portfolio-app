@@ -24,8 +24,8 @@ object HashService {
         .apply { update(data, offset, len) }
         .digest()
 
-  fun encode(data: ByteArray) = data.map {
-    table[abs(it.toInt()) % table.size]
+  fun encode(data: ByteArray) = data.also {
+    data.forEachIndexed{ index, content -> data[index] = table[abs(content.toInt()) % table.size] }
   }
 
 }

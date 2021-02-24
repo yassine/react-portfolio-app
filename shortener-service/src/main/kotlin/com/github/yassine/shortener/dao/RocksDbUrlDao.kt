@@ -15,17 +15,14 @@ class RocksDbUrlDao @Inject constructor(private val rocksDB: RocksDB): UrlDao {
   override fun store(url: ByteArray, offset: Int, length: Int): ByteArray? {
     val key     = encode(hash(url, offset, length))
     var hashLen = MIN_HASH_LENGTH
-    var subKey  = key.subList(0, hashLen).toByteArray()
-    var value   = rocksDB.get(subKey)
+    var value   = rocksDB.get(key, 0, hashLen)
 
     /*
       Collisions handling: we basically handle collisions
       by increasing the hash length.
     */
-    while (value != null && ++hashLen < 33) {
-      subKey = key.subList(0, hashLen).toByteArray()
-      value  = rocksDB.get(subKey)
-    }
+    while (value != null && ++hashLen < 33)
+      value = rocksDB.get(key, 0, hashLen)
 
     if (hashLen > MIN_HASH_LENGTH) {
       if (value == null) {
@@ -36,8 +33,8 @@ class RocksDbUrlDao @Inject constructor(private val rocksDB: RocksDB): UrlDao {
     }
 
     return hashLen.takeIf { it < 33 }
-      ?.also { rocksDB.put(subKey, 0, hashLen, url, offset, length) }
-      ?.let { subKey }
+      ?.also { rocksDB.put(key, 0, hashLen, url, offset, length) }
+      ?.let { key.copyOfRange(0, hashLen) }
   }
 
   override fun store(url: ByteArray): ByteArray?

@@ -15,7 +15,7 @@ object RocksDbUrlDaoTest: Spek({
     it("a longer hash key should be used") {
       val rockDB = Mockito.mock(RocksDB::class.java)
       var callIndex = 0;
-      Mockito.`when`(rockDB.get(Mockito.any())).thenAnswer {
+      Mockito.`when`(rockDB.get(Mockito.any(), Mockito.anyInt(), Mockito.anyInt())).thenAnswer {
         if (callIndex == 0) {
           callIndex++;
           return@thenAnswer ByteArray(15);
@@ -32,7 +32,7 @@ object RocksDbUrlDaoTest: Spek({
   describe("when all possible key length fails") {
     it("I should get null as a hash") {
       val rockDB = Mockito.mock(RocksDB::class.java)
-      Mockito.`when`(rockDB.get(Mockito.any())).thenReturn(ByteArray(15))
+      Mockito.`when`(rockDB.get(Mockito.any(), Mockito.anyInt(), Mockito.anyInt())).thenReturn(ByteArray(15))
       val urlDao = RocksDbUrlDao(rockDB)
       val hash = urlDao.store("hello".toByteArray())
       expectThat(hash).isNull()

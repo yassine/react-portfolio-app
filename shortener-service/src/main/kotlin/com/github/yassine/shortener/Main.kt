@@ -24,7 +24,7 @@ var server: Undertow? = null
 fun main(args: Array<String>) {
   server = undertow(
     ObjectMapper(YAMLFactory())
-      .also { it.registerKotlinModule() }
+      .apply { registerKotlinModule() }
       .readValue(File(args[0]), ShortenerConfiguration::class.java)
   ).apply { start() }
 }

@@ -1,8 +1,6 @@
 package com.github.yassine.shortener
 
-import com.github.yassine.shortener.service.BAD_REQUEST
-import com.github.yassine.shortener.service.BAD_URL
-import com.github.yassine.shortener.service.NO_URL
+import com.github.yassine.shortener.service.*
 import com.google.common.io.ByteStreams.copy
 import com.google.common.io.Files
 import io.restassured.module.kotlin.extensions.Extract
@@ -29,13 +27,16 @@ object ApiTest: Spek({
 
   describe("when a i request a non existing key from the api") {
 
-    it("i should get a 404 response code") {
+    it("i should get a Not found response code/message") {
       Given {
         port(port)
       } When {
         get("/")
       } Then {
-        statusCode(404)
+        statusCode(NOT_FOUND_STATUS)
+      } Extract {
+        val message = body().asString()?.stripQuotes()
+        expect { that(message == String(NOT_FOUND)).isTrue() }
       }
     }
 
@@ -52,9 +53,9 @@ object ApiTest: Spek({
       } When {
         post("/")
       } Then {
-        statusCode(200)
+        statusCode(201)
       } Extract {
-        hash = this.body().asString()
+        hash = body().asString()
         expect { that(hash != null).isTrue() }
       }
     }
@@ -67,7 +68,7 @@ object ApiTest: Spek({
       } Then {
         statusCode(200)
       } Extract {
-        val ret = this.body().asString()?.replace("\"", "")
+        val ret = this.body().asString()?.stripQuotes()
         expect { that(ret == key).isTrue() }
       }
     }
@@ -79,7 +80,7 @@ object ApiTest: Spek({
       } When {
         post("/")
       } Then {
-        statusCode(200)
+        statusCode(201)
       } Extract {
         expect { that(hash != body().asString()).isTrue() }
       }
@@ -96,10 +97,24 @@ object ApiTest: Spek({
       } When {
         post("/")
       } Then {
-        statusCode(500)
+        statusCode(BAD_URL_STATUS)
       } Extract {
-        val message = this.body().asString()?.replace("\"", "")
+        val message = body().asString()?.stripQuotes()
         expect { that(message == String(BAD_URL)).isTrue() }
+      }
+    }
+
+    it("i should get an error if I post a too long URL") {
+      Given {
+        port(port)
+        body(String(ByteArray(URL_MAX_SIZE)))
+      } When {
+        post("/")
+      } Then {
+        statusCode(URL_TOO_LONG_STATUS)
+      } Extract {
+        val message = body().asString()?.stripQuotes()
+        expect { that(message == String(URL_TOO_LONG)).isTrue() }
       }
     }
 
@@ -109,9 +124,9 @@ object ApiTest: Spek({
       } When {
         post("/")
       } Then {
-        statusCode(500)
+        statusCode(NO_URL_STATUS)
       } Extract {
-        val message = this.body().asString()?.replace("\"", "")
+        val message = body().asString()?.stripQuotes()
         expect { that(message == String(NO_URL)).isTrue() }
       }
     }
@@ -122,9 +137,9 @@ object ApiTest: Spek({
       } When {
         get("/invalid/path")
       } Then {
-        statusCode(500)
+        statusCode(BAD_REQUEST_STATUS)
       } Extract {
-        val message = this.body().asString()?.replace("\"", "")
+        val message = body().asString()?.stripQuotes()
         expect { that(message == String(BAD_REQUEST)).isTrue() }
       }
     }
@@ -161,3 +176,6 @@ object ApiTest: Spek({
   }
 
 })
+
+fun String.stripQuotes(): String
+  = substring(1, length - 1)

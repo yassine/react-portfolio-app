@@ -46,6 +46,7 @@ dependencies {
   implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.11.3")
   implementation("io.github.microutils:kotlin-logging-jvm:2.0.2")
   implementation("ch.qos.logback:logback-classic:1.2.3")
+  implementation("commons-validator:commons-validator:1.7")
 
   testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2")
   testImplementation("org.awaitility:awaitility:4.0.3")
